@@ -42,7 +42,7 @@ sys.path.append('..')
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
 
-# Name of the directory containing the object detection module we're using
+# Name of the directory containing the object detection module 
 MODEL_NAME = 'ssdlite_mobilenet_v2_coco_2018_05_09'
 
 # Grab path to current working directory
