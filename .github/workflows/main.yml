@@ -1,34 +1,23 @@
-name: Sync workflows for GHES
+name: Validate Data
 
 on:
   push:
-    branches:
-    - main
+  pull_request:
 
 jobs:
-  sync:
+  validate-data:
     permissions:
-      contents: write
+      contents: read
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - run: |
-        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
-        git config user.email "cschleiden@github.com"
-        git config user.name "GitHub Actions"
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '12'
-    - name: Check starter workflows for GHES compat
-      run: |
-        npm ci
-        npx ts-node-script ./index.ts
-      working-directory: ./script/sync-ghes
-    - run: |
-        git add -A
-        if [ -z "$(git status --porcelain)" ]; then
-          echo "No changes to commit"
-        else
-          git commit -m "Updating GHES workflows"
-        fi
-    - run: git push
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "12"
+
+      - name: Validate workflows
+        run: |
+          npm ci
+          npx ts-node-script ./index.ts
+        working-directory: ./script/validate-data
