@@ -58,7 +58,7 @@ PATH_TO_LABELS = os.path.join(CWD_PATH,'data','trafficlight.pbtxt')
 # Number of classes the object detector can identify
 NUM_CLASSES = 4
 
-## Load the label map.
+## Load the label map
 # Label maps map indices to category names, so that when the convolution
 # network predicts `5`, we know that this corresponds to `airplane`.
 # Here we use internal utility functions, but anything that returns a
