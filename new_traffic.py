@@ -25,7 +25,7 @@ IM_HEIGHT = 480
 #IM_HEIGHT = 480   slightly faster framerate
 
 
-# Select camera type (if user enters --usbcam when calling this script,
+# Select camera type (if user enters --usbcam when calling this script
 # a USB webcam will be used)
 camera_type = 'picamera'
 parser = argparse.ArgumentParser()
