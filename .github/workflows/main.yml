@@ -1,21 +1,34 @@
-name: Close as a feature
+name: Sync workflows for GHES
+
 on:
-  issues:
-    types: [labeled]
+  push:
+    branches:
+    - main
 
 jobs:
-  build:
+  sync:
     permissions:
-      issues: write
+      contents: write
     runs-on: ubuntu-latest
     steps:
-    - name: Close Issue
-      uses: peter-evans/close-issue@v1
-      if: contains(github.event.issue.labels.*.name, 'feature')
+    - uses: actions/checkout@v3
+    - run: |
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+        git config user.email "cschleiden@github.com"
+        git config user.name "GitHub Actions"
+    - uses: actions/setup-node@v3
       with:
-        comment: |
-          Thank you 🙇 for this request. This request has been classified as a feature by the maintainers.
-          
-          We take all the requests for features seriously and have passed this on to the internal teams for their consideration.
-          
-          Because any feature requires further maintenance and support in the long term by this team, we would like to exercise caution into adding new features. If this feature is something that can be implemented independently, please consider forking this repository and adding the feature.
+        node-version: '12'
+    - name: Check starter workflows for GHES compat
+      run: |
+        npm ci
+        npx ts-node-script ./index.ts
+      working-directory: ./script/sync-ghes
+    - run: |
+        git add -A
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "No changes to commit"
+        else
+          git commit -m "Updating GHES workflows"
+        fi
+    - run: git push
