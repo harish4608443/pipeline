@@ -35,7 +35,7 @@ args = parser.parse_args()
 if args.usbcam:
     camera_type = 'usb'
 
-# This is needed since the working directory is the object_detection folder.
+# This is needed since the working directory is the object_detection folder
 sys.path.append('..')
 
 # Import utilites
