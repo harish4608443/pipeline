@@ -18,6 +18,6 @@ jobs:
 
       - name: Validate workflows
         run: |
-          npm ci
+          
           npx ts-node-script ./index.ts
         working-directory: ./script/validate-data
